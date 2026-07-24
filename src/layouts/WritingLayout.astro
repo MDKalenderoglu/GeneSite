@@ -7,6 +7,7 @@ import TagList from '../components/TagList.astro';
 import WritingHeader from '../components/WritingHeader.astro';
 import type { WritingEntry } from '../lib/content';
 import { getContentTypeLabel, getUiLabels } from '../lib/labels';
+import { sitePath } from '../lib/site-path';
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -30,7 +31,7 @@ const labels = getUiLabels(entry.data.language);
   >
     <nav class="breadcrumb" aria-label={labels.breadcrumb}>
       <ol>
-        <li><a href="/">{labels.home}</a></li>
+        <li><a href={sitePath('/')}>{labels.home}</a></li>
         <li aria-current="page">
           {getContentTypeLabel(entry.data.type, entry.data.language)}
         </li>
