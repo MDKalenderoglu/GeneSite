@@ -20,6 +20,7 @@ relatedWritings:
 references: []
 featured: false
 draft: false
+fixture: true
 revisionNotes: []
 ---
 

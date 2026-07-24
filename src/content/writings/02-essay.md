@@ -19,6 +19,7 @@ relatedWritings:
 references: []
 featured: false
 draft: false
+fixture: true
 revisionNotes:
   - version: 1.0.0
     date: 2026-06-10

@@ -17,6 +17,7 @@ relatedWritings:
 references: []
 featured: false
 draft: true
+fixture: true
 revisionNotes: []
 ---
 

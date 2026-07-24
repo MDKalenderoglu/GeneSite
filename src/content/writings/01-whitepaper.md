@@ -30,6 +30,7 @@ references:
     note: Phase 2 DOI bağlantısı görünümünü sınamak için kullanılan örnek kayıt.
 featured: true
 draft: false
+fixture: true
 revisionNotes: []
 ---
 

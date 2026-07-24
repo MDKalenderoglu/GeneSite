@@ -17,6 +17,7 @@ relatedWritings: []
 references: []
 featured: false
 draft: false
+fixture: true
 revisionNotes:
   - version: 1.0.1
     date: 2026-05-15

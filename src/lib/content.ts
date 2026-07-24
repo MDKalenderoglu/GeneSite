@@ -6,8 +6,10 @@ import {
 
 export type WritingEntry = CollectionEntry<'writings'>;
 
+const includeFixtures = process.env.GENESITE_INCLUDE_FIXTURES === 'true';
+
 export function isPublicWriting(entry: NormalizedWritingEntry): boolean {
-  return entry.data.draft === false;
+  return entry.data.draft === false && (includeFixtures || !entry.data.fixture);
 }
 
 export function isDiscoverableWriting(entry: NormalizedWritingEntry): boolean {
