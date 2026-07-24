@@ -98,6 +98,27 @@ describe('Phase 2 reading artifact', () => {
     expect(page).not.toContain('seed-theory-draft');
   });
 
+  it('renders a named, keyboard-focusable native table scroll region', () => {
+    const page = readPage('evidence-map');
+    const scrollRegion = page.match(
+      /<div\s+class="table-scroll-region"[^>]*>/,
+    )?.[0];
+
+    expect(scrollRegion).toBeDefined();
+    expect(scrollRegion).toContain('role="region"');
+    expect(scrollRegion).toContain(
+      'aria-labelledby="evidence-classes-caption"',
+    );
+    expect(scrollRegion).toContain('tabindex="0"');
+    expect(page).toContain('<table>');
+    expect(page).toContain('<caption id="evidence-classes-caption">');
+    expect(page).toContain('<thead>');
+    expect(page).toContain('<tbody>');
+    expect(page).toContain('<th scope="col">');
+    expect(page).toContain('<th scope="row">');
+    expect(page).toContain('<td>');
+  });
+
   it('emits focus, responsive-width, and local overflow safeguards', () => {
     const css = readGeneratedCss();
 
@@ -107,11 +128,19 @@ describe('Phase 2 reading artifact', () => {
       /\.prose\{[^}]*width:min\(100%,\s*var\(--width-prose\)\)/,
     );
     expect(css).toMatch(/\.prose pre\{[^}]*overflow-x:auto/);
-    expect(css).toMatch(/\.prose table\{[^}]*overflow-x:auto/);
+    expect(css).toMatch(/\.prose \.table-scroll-region\{[^}]*overflow-x:auto/);
+    expect(css).not.toMatch(/\.prose table\{[^}]*overflow-x:auto/);
+    expect(css).toMatch(
+      /\.prose \.table-scroll-region:focus-visible\{[^}]*outline:3px solid var\(--color-focus\)/,
+    );
     expect(css).toMatch(/body\{[^}]*min-width:0/);
     expect(css).toMatch(/body\{[^}]*font-size:var\(--text-body\)/);
     expect(css).toMatch(/img,svg,video\{[^}]*max-width:100%/);
     expect(css).toContain('@media (width>=44rem)');
     expect(css).toContain('@media print');
+    expect(css).toMatch(/\.prose \.table-scroll-region\{[^}]*overflow:visible/);
+    expect(css).toMatch(
+      /\.prose table\{[^}]*display:table[^}]*overflow:visible/,
+    );
   });
 });

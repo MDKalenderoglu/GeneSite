@@ -102,10 +102,13 @@ nested lists, blockquotes, inline and fenced code, tables, links, rules,
 figures, captions, footnotes, abbreviations, definition lists, superscript,
 subscript, strong text, and emphasis.
 
-Links use underlines as well as color. Images are responsive. Wide tables and
-code blocks scroll only inside bounded local regions; URLs and reference text
-wrap. Heading scroll offsets keep anchored headings clear. The built-in Astro
-Shiki renderer uses a light theme with no client-side JavaScript.
+Links use underlines as well as color. Images are responsive. Wide tables use a
+named, keyboard-focusable `.table-scroll-region` wrapper; horizontal overflow
+and keyboard focus belong to that same element while the inner table retains its
+native semantics and is not a scroll container. Code blocks scroll inside their
+own focusable bounded regions. URLs and reference text wrap. Heading scroll
+offsets keep anchored headings clear. The built-in Astro Shiki renderer uses a
+light theme with no client-side JavaScript.
 
 ## Responsive behavior
 
@@ -126,8 +129,10 @@ enhancement-script layout shift, or complex desktop sidebar.
 - Three-pixel `:focus-visible` outline using the focus token.
 - Underlined links, meaningful labels, and status meaning independent of color.
 - Reduced-motion handling and no essential animated interaction.
-- Captioned representative tables with scoped headers, locally scrollable
-  keyboard-focusable table regions, and figure captions/source context.
+- Captioned representative tables with scoped headers. A wrapper receives
+  `role="region"`, `tabindex="0"`, and a caption-backed accessible name only
+  when it represents the table's bounded horizontal overflow region, avoiding
+  unnecessary landmarks while keeping keyboard focus and scrolling together.
 - Semantic reference and revision sections; stable reference anchors.
 - Reading and navigation work without client-side JavaScript.
 

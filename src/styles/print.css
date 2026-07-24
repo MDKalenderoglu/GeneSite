@@ -137,7 +137,7 @@
     break-inside: avoid;
   }
 
-  .prose .table-region {
+  .prose .table-scroll-region {
     display: block;
     width: 100%;
     max-width: 100%;

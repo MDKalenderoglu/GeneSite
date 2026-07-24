@@ -58,13 +58,13 @@ giden görünür bir bağlantı da içerir.
 ## Örnek sınıflandırma
 
 <div
-  class="table-region"
+  class="table-scroll-region"
   role="region"
-  aria-label="Kanıt sınıfları tablosu"
+  aria-labelledby="evidence-classes-caption"
   tabindex="0"
 >
   <table>
-    <caption>
+    <caption id="evidence-classes-caption">
       Geliştirme fixture'ında kullanılan örnek kanıt sınıfları
     </caption>
     <thead>

@@ -196,6 +196,12 @@ Markdown/MDX, and print CSS defines browser print output. The built-in Shiki
 highlighter supplies static code markup. No client-side runtime, UI framework,
 remote font, or browser-test dependency is required.
 
+Wide table markup keeps the native `table`, `caption`, section, header, and cell
+elements. A `.table-scroll-region` wrapper owns horizontal overflow and keyboard
+focus and takes its accessible name from the caption. The inner table never
+becomes the scroll container. Print CSS removes overflow from the wrapper and
+fits the native table to the printable width without clipping.
+
 Trade-off: a shared layout family intentionally limits per-type visual novelty.
 That consistency prevents content type from implying epistemic authority and
 keeps long-form reading primary.
@@ -262,7 +268,8 @@ The quality pipeline runs:
 5. Production static build.
 6. Generated-HTML and CSS artifact checks, including draft leakage, semantic
    landmarks, heading structure, archive/relationship behavior, print inclusion,
-   and responsive overflow contracts.
+   responsive overflow contracts, and the named focusable wrapper/native-table
+   ownership boundary.
 7. A real negative Astro-build integration test for duplicate source identity.
 
 Tests must include one fixture for every content type and status, invalid

@@ -119,11 +119,8 @@
 }
 
 .prose table {
-  display: block;
   width: max-content;
-  max-width: 100%;
-  margin-block: var(--space-8);
-  overflow-x: auto;
+  min-width: 100%;
   border-collapse: collapse;
   font-family: var(--font-interface);
   font-size: 0.88rem;
@@ -152,14 +149,19 @@
   font-weight: 700;
 }
 
-.prose .table-region {
+.prose .table-scroll-region {
   max-width: 100%;
   margin-block: var(--space-8);
   overflow-x: auto;
   border-radius: var(--radius-small);
 }
 
-.prose .table-region table {
+.prose .table-scroll-region:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.prose .table-scroll-region table {
   margin-block: 0;
 }
 
