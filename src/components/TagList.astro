@@ -1,0 +1,24 @@
+---
+import { getUiLabels, type WritingLanguage } from '../lib/labels';
+
+interface Props {
+  tags: string[];
+  language: WritingLanguage;
+}
+
+const { tags, language } = Astro.props;
+const labels = getUiLabels(language);
+---
+
+{
+  tags.length > 0 && (
+    <section aria-labelledby="tags-heading">
+      <h2 id="tags-heading">{labels.tags}</h2>
+      <ul class="tag-list">
+        {tags.map((tag) => (
+          <li>{tag}</li>
+        ))}
+      </ul>
+    </section>
+  )
+}

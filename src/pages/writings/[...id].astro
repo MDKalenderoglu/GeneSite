@@ -1,11 +1,11 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
+import WritingLayout from '../../layouts/WritingLayout.astro';
 import {
   getPublicRelatedWritings,
   getPublicWritings,
   loadValidatedWritings,
 } from '../../lib/content';
-import { SITE_NAME } from '../../data/site';
 
 export async function getStaticPaths() {
   const writings = await getPublicWritings();
@@ -28,57 +28,6 @@ const relatedWritings = getPublicRelatedWritings(
 );
 ---
 
-<!doctype html>
-<html lang={entry.data.language}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{entry.data.title} — {SITE_NAME}</title>
-    <meta name="description" content={entry.data.description} />
-  </head>
-  <body>
-    <header>
-      <nav aria-label="Ana">
-        <a href="/">GeneSite</a>
-      </nav>
-    </header>
-    <main>
-      <article data-writing-id={entry.id}>
-        <header>
-          <p>{entry.data.type}</p>
-          <h1>{entry.data.title}</h1>
-          <p>{entry.data.description}</p>
-          <dl>
-            <dt>Canonical ID</dt>
-            <dd>{entry.id}</dd>
-            <dt>Publication status</dt>
-            <dd>{entry.data.status}</dd>
-            <dt>Epistemic status</dt>
-            <dd>{entry.data.epistemicStatus}</dd>
-            <dt>Version</dt>
-            <dd>{entry.data.version}</dd>
-          </dl>
-        </header>
-
-        <Content />
-
-        {
-          relatedWritings.length > 0 && (
-            <section aria-labelledby="related-heading">
-              <h2 id="related-heading">Related writings</h2>
-              <ul>
-                {relatedWritings.map((related) => (
-                  <li data-related-writing-id={related.id}>
-                    <a href={`/writings/${related.id}/`}>
-                      {related.data.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )
-        }
-      </article>
-    </main>
-  </body>
-</html>
+<WritingLayout entry={entry} relatedWritings={relatedWritings}>
+  <Content />
+</WritingLayout>

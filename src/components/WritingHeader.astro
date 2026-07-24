@@ -1,0 +1,82 @@
+---
+import type { WritingEntry } from '../lib/content';
+import {
+  formatWritingDate,
+  getContentTypeLabel,
+  getUiLabels,
+} from '../lib/labels';
+import LanguageIndicator from './LanguageIndicator.astro';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  entry: WritingEntry;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const labels = getUiLabels(data.language);
+---
+
+<header class="writing-header">
+  <p class="writing-header__eyebrow">
+    {getContentTypeLabel(data.type, data.language)}
+  </p>
+  <h1>{data.title}</h1>
+  <p class="writing-header__description">{data.description}</p>
+
+  <dl class="writing-meta">
+    <div class="writing-meta__item">
+      <dt>{labels.publicationStatus}</dt>
+      <dd>
+        <StatusLabel
+          kind="publication"
+          value={data.status}
+          language={data.language}
+        />
+      </dd>
+    </div>
+    <div class="writing-meta__item">
+      <dt>{labels.epistemicStatus}</dt>
+      <dd>
+        <StatusLabel
+          kind="epistemic"
+          value={data.epistemicStatus}
+          language={data.language}
+        />
+      </dd>
+    </div>
+    {
+      data.publishedAt && (
+        <div class="writing-meta__item">
+          <dt>{labels.publishedAt}</dt>
+          <dd>
+            <time datetime={data.publishedAt.toISOString()}>
+              {formatWritingDate(data.publishedAt, data.language)}
+            </time>
+          </dd>
+        </div>
+      )
+    }
+    <div class="writing-meta__item">
+      <dt>{labels.updatedAt}</dt>
+      <dd>
+        <time datetime={data.updatedAt.toISOString()}>
+          {formatWritingDate(data.updatedAt, data.language)}
+        </time>
+      </dd>
+    </div>
+    <div class="writing-meta__item">
+      <dt>{labels.version}</dt>
+      <dd class="technical-value">{data.version}</dd>
+    </div>
+    <div class="writing-meta__item">
+      <dt>{labels.language}</dt>
+      <dd>
+        <LanguageIndicator
+          language={data.language}
+          interfaceLanguage={data.language}
+        />
+      </dd>
+    </div>
+  </dl>
+</header>

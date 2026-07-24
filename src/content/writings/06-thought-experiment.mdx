@@ -33,3 +33,14 @@ revisionNotes: []
 
 Assume that changing a source filename must **never** change a published
 identity. The fixture verifies that an MDX entry can retain its canonical ID.
+
+### Constraints
+
+- The public route uses the canonical ID.
+- A draft relation stays hidden.
+- The document remains readable without client-side JavaScript.
+
+---
+
+The example is intentionally narrow: it tests the reading surface, not a search,
+archive, or recommendation system.

@@ -1,0 +1,18 @@
+---
+import { SITE_NAME } from '../data/site';
+import { getUiLabels, type WritingLanguage } from '../lib/labels';
+
+interface Props {
+  language: WritingLanguage;
+}
+
+const { language } = Astro.props;
+const labels = getUiLabels(language);
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner wide-shell">
+    <p class="site-footer__name">{SITE_NAME}</p>
+    <p class="site-footer__statement">{labels.footerStatement}</p>
+  </div>
+</footer>

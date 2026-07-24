@@ -1,0 +1,21 @@
+---
+import { SITE_NAME } from '../data/site';
+import { getUiLabels, type WritingLanguage } from '../lib/labels';
+
+interface Props {
+  language: WritingLanguage;
+}
+
+const { language } = Astro.props;
+const labels = getUiLabels(language);
+---
+
+<header class="site-header">
+  <div class="site-header__inner wide-shell">
+    <nav aria-label={labels.primaryNavigation}>
+      <a class="site-header__brand" href="/">{SITE_NAME}</a>
+    </nav>
+    <p class="site-header__tagline">{labels.siteDescription}</p>
+  </div>
+  <p class="site-header__print-identity print-only">{SITE_NAME}</p>
+</header>

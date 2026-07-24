@@ -1,8 +1,8 @@
 # GeneSite documentation
 
 This directory is the product and engineering source of truth for GeneSite.
-Phase 1 provides the validated content foundation and minimal inspection routes;
-the Phase 2 reading experience has not been implemented.
+Phase 1 provides the validated content foundation, and Phase 2 provides the
+semantic, responsive, print-ready reading experience.
 
 ## Documents
 
@@ -30,7 +30,9 @@ Resolve a conflict by updating all affected documents in the same change.
 
 ## Current status
 
-Phases 0 and 1 are complete. The repository now contains the current Astro
+Phases 0, 1, and 2 are complete. The repository contains the current Astro
 Content Layer collection, schema and integrity validation, representative
-development fixtures, minimal static inspection routes, and automated draft-leak
-protection. Phase 2 is the next implementation phase.
+development fixtures, automated draft-leak protection, centralized bilingual
+labels, semantic layouts and components, long-form prose styles, responsive and
+print behavior, and production-artifact coverage. Phase 3 discovery work has not
+begun.

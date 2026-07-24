@@ -47,21 +47,36 @@ integration test is the only intentional additional failing build.
 
 ## Phase 2 — Reading experience
 
+Status: complete.
+
 - Implement tokens, global styles, base layout, and writing layout.
 - Render Markdown/MDX prose, headings, code, tables, figures, and citations.
 - Render status, epistemic status, dates, language, version, references,
   revisions, archive notices, tags, and public related writings.
 - Establish responsive and print behavior.
+- Centralize Turkish and English content-type, publication-status,
+  epistemic-status, language, interface, and date labels.
+- Test the production artifact for semantic structure, draft-safe relations,
+  archive behavior, references, revisions, print inclusion, focus treatment,
+  constrained prose, and local code/table overflow.
 
 Exit gate: representative long and short writings are readable and accessible
 without client-side JavaScript on narrow and wide screens.
+
+Exit evidence: all automated verification gates pass; generated pages have one
+primary heading, named landmarks, correct language, skip navigation, and no
+draft leakage. Manual browser inspection at 320px and 1440px confirms no
+page-level overflow, locally scrollable wide content, 18px long-form text, and a
+70ch wide-screen prose measure. Print styles retain writing identity, metadata,
+archive notices, prose, revisions, and references.
 
 ## Phase 3 — Discovery and navigation
 
 - Build the home page around featured work, open questions, and topic entry
   points.
 - Build the writings index and static type/tag pages.
-- Add header, footer, skip navigation, breadcrumbs, and empty states.
+- Extend the Phase 2 header, footer, and breadcrumbs for discovery navigation
+  and add empty states.
 - Add table of contents only where content length warrants it.
 
 Exit gate: every public writing is reachable from a static navigation path, and
@@ -110,7 +125,9 @@ graceful fallback where applicable, and no violation of the static architecture.
   and site name is `GeneSite`.
 - Whether English follows the primary Turkish launch immediately or later. Phase
   1 accepts both `tr` and `en`.
-- Exact typography/font licensing and final visual palette.
+- Whether a later visual refinement should replace the Phase 2 system-font
+  stacks or palette; any replacement must preserve the current accessibility and
+  performance constraints.
 - Citation style and whether prose uses footnotes, author–date citations, or
   both by content type.
 - Whether archived entries remain in a dedicated archive index.
@@ -122,7 +139,7 @@ graceful fallback where applicable, and no violation of the static architecture.
 
 ## Recommended next implementation task
 
-Begin Phase 2 with the semantic writing-page anatomy and prose rendering
-contract, then introduce tokens and layout only as needed to make representative
-long and short writings readable and accessible. Phase 1 fixtures and draft-leak
-tests must remain green throughout.
+Begin Phase 3 by specifying the static writings-index information architecture
+and reachability rules. Reuse the Phase 2 layouts and cards, keep canonical
+identity and validated selectors intact, and do not add client-side filtering or
+search without a demonstrated discovery need.

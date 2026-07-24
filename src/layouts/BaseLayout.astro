@@ -1,0 +1,36 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { getUiLabels, type WritingLanguage } from '../lib/labels';
+import printStylesheet from '../styles/print.css?url';
+import '../styles/global.css';
+import '../styles/prose.css';
+
+interface Props {
+  title: string;
+  description: string;
+  language: WritingLanguage;
+}
+
+const { title, description, language } = Astro.props;
+const labels = getUiLabels(language);
+---
+
+<!doctype html>
+<html lang={language}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="stylesheet" href={printStylesheet} media="print" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">{labels.skipToContent}</a>
+    <SiteHeader language={language} />
+    <main class="site-main" id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter language={language} />
+  </body>
+</html>

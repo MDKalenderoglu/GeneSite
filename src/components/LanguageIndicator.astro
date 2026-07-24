@@ -1,0 +1,15 @@
+---
+import { getLanguageLabel, type WritingLanguage } from '../lib/labels';
+
+interface Props {
+  language: WritingLanguage;
+  interfaceLanguage: WritingLanguage;
+}
+
+const { language, interfaceLanguage } = Astro.props;
+---
+
+<span class="language-indicator">
+  <span>{getLanguageLabel(language, interfaceLanguage)}</span>
+  <span class="language-indicator__code" aria-hidden="true">{language}</span>
+</span>

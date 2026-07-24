@@ -14,16 +14,18 @@ writings (.md/.mdx) + site data + Astro components
         schema and integrity validation
                     |
                     v
-       Astro static routes and metadata
+       Astro static routes and presentation
                     |
                     v
-        immutable HTML/CSS/assets/feeds
+          immutable HTML/CSS/assets
 ```
 
 ## Proposed directory tree
 
-This is the longer-term target structure. Phase 1 implements only the content,
-validation, tests, and minimal route subset required by the roadmap:
+This is the longer-term target structure. Phase 2 now implements the content
+foundation, semantic components, shared layouts, reading styles, tests, and the
+two route surfaces required by the roadmap. Entries marked for later phases
+remain targets, not current behavior:
 
 ```text
 GeneSite/
@@ -59,6 +61,7 @@ GeneSite/
 │   │   ├── content-identity.ts
 │   │   ├── content-validation.ts
 │   │   ├── content.ts
+│   │   ├── labels.ts
 │   │   ├── seo.ts
 │   │   └── taxonomy.ts
 │   ├── pages/
@@ -76,6 +79,7 @@ GeneSite/
 │   │   └── robots.txt.ts
 │   ├── styles/
 │   │   ├── global.css
+│   │   ├── print.css
 │   │   ├── prose.css
 │   │   └── tokens.css
 │   └── env.d.ts
@@ -175,6 +179,27 @@ hydrating static prose and navigation.
 The build artifact must run on any static host. Provider-specific configuration
 is isolated to deployment files and may not become a content dependency.
 
+### AD-10: Semantic, JavaScript-free reading presentation
+
+`BaseLayout.astro` owns the document shell, language, metadata, skip navigation,
+landmarks, and stylesheet loading. `WritingLayout.astro` composes the canonical
+writing route from focused semantic components. Components receive normalized
+collection entries and expose identity only through `entry.id`.
+
+`src/lib/labels.ts` centralizes Turkish and English labels for content types,
+publication statuses, epistemic statuses, languages, interface text, and
+localized dates. Presentation components do not duplicate status maps.
+
+The CSS layers have distinct owners: tokens define semantic values, global CSS
+defines the shell and reusable component classes, prose CSS defines rendered
+Markdown/MDX, and print CSS defines browser print output. The built-in Shiki
+highlighter supplies static code markup. No client-side runtime, UI framework,
+remote font, or browser-test dependency is required.
+
+Trade-off: a shared layout family intentionally limits per-type visual novelty.
+That consistency prevents content type from implying epistemic authority and
+keeps long-form reading primary.
+
 ## Routing and URL policy
 
 - `/` — home and editorial entry points.
@@ -199,7 +224,8 @@ parameters may enhance filtering but cannot be canonical content addresses.
    taxonomy, and related-content result.
 5. Public entries are sorted explicitly for each surface; no default global
    ordering is assumed.
-6. Routes render HTML and shared metadata from the same normalized entry data.
+6. Routes render semantic HTML and shared presentation from the same normalized
+   entry data; bilingual labels are resolved centrally.
 7. The production build emits static assets for deployment.
 
 ## Validation strategy
@@ -227,15 +253,17 @@ schema.
 
 ### Automated checks
 
-The eventual quality pipeline should run:
+The quality pipeline runs:
 
 1. Formatting and linting.
 2. Astro/TypeScript type checking.
 3. Content schema and integrity validation.
-4. Unit tests for selectors, dates, taxonomy, and metadata.
+4. Unit tests for selectors, identity, validation, and bilingual labels.
 5. Production static build.
-6. Internal-link and generated-HTML checks.
-7. Targeted accessibility and browser smoke tests on representative pages.
+6. Generated-HTML and CSS artifact checks, including draft leakage, semantic
+   landmarks, heading structure, archive/relationship behavior, print inclusion,
+   and responsive overflow contracts.
+7. A real negative Astro-build integration test for duplicate source identity.
 
 Tests must include one fixture for every content type and status, invalid
 fixture cases for every cross-field invariant, a draft-leak test against build
@@ -244,6 +272,11 @@ Identity tests exercise the generator directly. A negative integration build
 points the real Astro loader at a temporary directory outside the committed
 collection, creates duplicate Markdown/MDX sources there, asserts the build
 fails, and removes the directory in a `finally` block.
+
+Phase 2 adds centralized-label unit tests and production-artifact tests for the
+reading interface. Manual browser smoke checks at 320px and 1440px inspect
+computed overflow, reading measure, typography, language, and landmarks. The
+browser is an external verification tool, not a project dependency.
 
 ## Security and privacy posture
 
@@ -255,12 +288,23 @@ documented in the privacy-facing content.
 
 ## Performance and accessibility budgets
 
-- Prefer system or self-hosted fonts with limited weights.
+- Use system font stacks; Phase 2 has no font requests or font assets.
 - Set explicit media dimensions and optimize responsive images at build time.
 - Avoid client bundles on prose pages unless a feature needs them.
 - Meet WCAG 2.2 AA as the baseline, including focus visibility, contrast,
   semantic landmarks, reduced motion, and keyboard operation.
 - Treat readable line length and stable layout as correctness, not polish.
+
+## Phase 2 presentation boundaries
+
+- Implemented routes remain `/` and `/writings/{entry.id}/`.
+- The home route uses `getDiscoverableWritings()` and writing routes use the
+  existing validated access and public relationship resolver.
+- Drafts have no generated writing route and cannot appear in cards or related
+  results. Archived writings retain their canonical route, metadata, revisions,
+  references, and relations, with an explicit notice.
+- Full archives, type/tag pages, search, filtering, feeds, sitemaps, structured
+  data, analytics, deployment, and hosting remain deferred.
 
 ## Known trade-offs
 

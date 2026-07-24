@@ -1,0 +1,92 @@
+---
+import {
+  formatWritingDate,
+  getUiLabels,
+  type WritingLanguage,
+} from '../lib/labels';
+import type { WritingReference } from '../lib/writing-schema';
+
+interface Props {
+  references: WritingReference[];
+  language: WritingLanguage;
+}
+
+const { references, language } = Astro.props;
+const labels = getUiLabels(language);
+const items = references.map((reference) => ({
+  ...reference,
+  urlHost: reference.url ? new URL(reference.url).hostname : undefined,
+}));
+---
+
+{
+  items.length > 0 && (
+    <section aria-labelledby="references-heading" data-reference-list>
+      <h2 id="references-heading">{labels.references}</h2>
+      <ol class="reference-list">
+        {items.map((reference) => (
+          <li class="reference-item" id={`reference-${reference.id}`}>
+            {reference.authors && reference.authors.length > 0 && (
+              <p class="reference-item__authors">
+                <span class="visually-hidden">{labels.authors}: </span>
+                {reference.authors.join(', ')}
+              </p>
+            )}
+            <p>
+              <strong>{reference.title}</strong>
+            </p>
+            {reference.container && (
+              <p class="reference-item__detail">
+                {labels.container}: <cite>{reference.container}</cite>
+              </p>
+            )}
+            {reference.publisher && (
+              <p class="reference-item__detail">
+                {labels.publisher}: {reference.publisher}
+              </p>
+            )}
+            {reference.publishedAt && (
+              <p class="reference-item__detail">
+                {labels.publicationDate}:{' '}
+                <time datetime={reference.publishedAt.toISOString()}>
+                  {formatWritingDate(reference.publishedAt, language)}
+                </time>
+              </p>
+            )}
+            {(reference.doi || reference.url) && (
+              <p class="reference-item__links">
+                {reference.doi && (
+                  <a
+                    href={`https://doi.org/${reference.doi}`}
+                    rel="noreferrer"
+                    data-reference-doi
+                  >
+                    {labels.doi}: {reference.doi}
+                  </a>
+                )}
+                {reference.url && (
+                  <a href={reference.url} rel="noreferrer" data-reference-url>
+                    {labels.url}: {reference.urlHost}
+                  </a>
+                )}
+              </p>
+            )}
+            {reference.accessedAt && (
+              <p class="reference-item__detail">
+                {labels.accessDate}:{' '}
+                <time datetime={reference.accessedAt.toISOString()}>
+                  {formatWritingDate(reference.accessedAt, language)}
+                </time>
+              </p>
+            )}
+            {reference.note && (
+              <p class="reference-item__detail">
+                {labels.referenceNote}: {reference.note}
+              </p>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}

@@ -1,0 +1,69 @@
+---
+import ArchiveNotice from '../components/ArchiveNotice.astro';
+import ReferenceList from '../components/ReferenceList.astro';
+import RelatedWritings from '../components/RelatedWritings.astro';
+import RevisionHistory from '../components/RevisionHistory.astro';
+import TagList from '../components/TagList.astro';
+import WritingHeader from '../components/WritingHeader.astro';
+import type { WritingEntry } from '../lib/content';
+import { getContentTypeLabel, getUiLabels } from '../lib/labels';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  entry: WritingEntry;
+  relatedWritings: WritingEntry[];
+}
+
+const { entry, relatedWritings } = Astro.props;
+const labels = getUiLabels(entry.data.language);
+---
+
+<BaseLayout
+  title={`${entry.data.title} — GeneSite`}
+  description={entry.data.description}
+  language={entry.data.language}
+>
+  <article
+    class="writing wide-shell"
+    data-writing-id={entry.id}
+    data-writing-status={entry.data.status}
+  >
+    <nav class="breadcrumb" aria-label={labels.breadcrumb}>
+      <ol>
+        <li><a href="/">{labels.home}</a></li>
+        <li aria-current="page">
+          {getContentTypeLabel(entry.data.type, entry.data.language)}
+        </li>
+      </ol>
+    </nav>
+
+    <WritingHeader entry={entry} />
+
+    {
+      entry.data.status === 'archived' && (
+        <ArchiveNotice language={entry.data.language} />
+      )
+    }
+
+    <div class="prose" data-writing-body>
+      <slot />
+    </div>
+
+    <footer class="writing-support">
+      <RevisionHistory
+        revisions={entry.data.revisionNotes}
+        currentVersion={entry.data.version}
+        language={entry.data.language}
+      />
+      <ReferenceList
+        references={entry.data.references}
+        language={entry.data.language}
+      />
+      <RelatedWritings
+        writings={relatedWritings}
+        language={entry.data.language}
+      />
+      <TagList tags={entry.data.tags} language={entry.data.language} />
+    </footer>
+  </article>
+</BaseLayout>

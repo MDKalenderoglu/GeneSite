@@ -1,0 +1,19 @@
+---
+import { getUiLabels, type WritingLanguage } from '../lib/labels';
+
+interface Props {
+  language: WritingLanguage;
+}
+
+const { language } = Astro.props;
+const labels = getUiLabels(language);
+---
+
+<aside
+  class="archive-notice"
+  aria-labelledby="archive-notice-heading"
+  data-archive-notice
+>
+  <h2 id="archive-notice-heading">{labels.archiveHeading}</h2>
+  <p>{labels.archiveMessage}</p>
+</aside>

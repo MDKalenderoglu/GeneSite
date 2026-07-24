@@ -2,130 +2,155 @@
 
 ## Design direction
 
-GeneSite should feel like a rigorous personal research notebook refined for
-publication: quiet, legible, precise, and visibly alive to revision. It should
-not look like a résumé, startup landing page, generic card grid, or newspaper
-theme.
+GeneSite is a rigorous personal research notebook refined for publication:
+quiet, precise, typography-first, warm, and visibly attentive to revision. It
+must not resemble a résumé, corporate site, SaaS landing page, newspaper, or
+generic reverse-chronological blog.
 
-The design system begins with prose and metadata. Decorative identity is
-secondary.
+Reading is the main interaction. Hierarchy comes from type, spacing, rules, and
+alignment rather than gradients, shadows, animation, or decorative density.
 
-## Principles
+## Implemented tokens
 
-- **Reading is the main interaction.** Give prose the strongest visual weight.
-- **Status is visible, not alarming.** Publication and epistemic labels must be
-  clear without resembling marketing badges.
-- **Hierarchy beats decoration.** Use spacing, type, rules, and alignment before
-  shadows, gradients, or animation.
-- **Density is deliberate.** Long-form pages are spacious; indexes can be
-  compact and information-rich.
-- **Links look like links.** Do not depend on color alone.
-- **Motion is optional.** Honor reduced-motion preferences and avoid motion in
-  the reading path.
+`src/styles/tokens.css` owns the semantic custom properties. Components consume
+these properties through shared classes and do not introduce one-off colors.
 
-## Token categories
+- Surfaces: `--color-canvas`, `--color-surface`, and `--color-surface-subtle`.
+- Text and interaction: `--color-text`, `--color-text-muted`, `--color-link`,
+  `--color-link-hover`, `--color-focus`, and `--color-selection`.
+- Structure: `--color-border`, `--color-border-strong`, and
+  `--color-code-background`.
+- Publication accents: `--color-publication-seed`,
+  `--color-publication-developing`, `--color-publication-published`,
+  `--color-publication-revised`, and `--color-publication-archived`.
+- Epistemic accents: `--color-epistemic-established`,
+  `--color-epistemic-review`, `--color-epistemic-interpretation`,
+  `--color-epistemic-hypothesis`, and `--color-epistemic-speculative`.
+- Spacing: `--space-1` through `--space-20`, based on a 4px unit.
+- Measures: `--width-prose` and `--width-wide`.
+- Shape: `--radius-small` and `--radius-medium`.
+- Type: `--font-text`, `--font-interface`, `--font-monospace`, `--text-body`,
+  `--line-body`, and `--line-heading`.
 
-Define tokens in `src/styles/tokens.css`; components must consume tokens rather
-than one-off values.
+The light-only palette uses a warm off-white canvas and near-black text. Status
+accents are always paired with explicit text; color never carries status meaning
+alone. Dark mode remains outside Phase 2.
 
-### Color
+## Typography
 
-Use semantic roles: `canvas`, `surface`, `text`, `text-muted`, `link`, `border`,
-`focus`, `selection`, and status accents. Start with a light reading theme with
-a warm neutral canvas and near-black text. A dark theme is deferred until both
-themes can be tested to the same standard.
+Only robust local system stacks are used:
 
-All text and controls must meet WCAG 2.2 AA contrast. Status colors must always
-be accompanied by readable text.
+- Long-form text: `ui-serif`, Georgia, Cambria, Times New Roman, Times, serif.
+- Interface text: `ui-sans-serif`, Apple and Segoe UI system faces, sans-serif.
+- Technical metadata and code: `ui-monospace`, SFMono-Regular, Menlo, Monaco,
+  Consolas, Liberation Mono, monospace.
 
-### Typography
+Ordinary body and prose text is `1.125rem` (18 CSS pixels at the default root)
+with a `1.72` line-height. Prose is constrained to `70ch`, inside a wider
+`76rem` page shell. Headings use a restrained scale, a maximum weight of 600 in
+prose, and coherent `h1`–`h6` treatment. Paragraph, list, heading, and section
+spacing is deliberately generous enough for long reading sessions.
 
-- One text face optimized for long-form reading.
-- One complementary interface face, or the text face reused for UI.
-- A monospace face only for code, identifiers, and compact technical metadata.
-- Body text approximately 17–20 CSS pixels at ordinary desktop widths.
-- Prose measure approximately 62–72 characters.
-- A restrained modular scale; headings communicate structure rather than brand.
+No remote requests, font packages, or bundled font files are present.
 
-Prefer self-hosted variable fonts or the system stack. Keep font files and used
-weights minimal.
+## Layout responsibilities
 
-### Spacing and layout
+`BaseLayout.astro` owns the document shell: dynamic language, responsive
+metadata, title and description, skip link, semantic site header, matching main
+target, semantic footer, global/prose CSS, and the print stylesheet.
 
-Use a small consistent spacing scale based on a 4px unit. The reading column,
-wide content region, and full viewport are distinct layout primitives. Tables,
-figures, and code may escape the prose column without forcing ordinary text to
-be too wide.
+`WritingLayout.astro` owns writing-page composition: compact breadcrumb, writing
+header, optional archive notice, article prose, revision history, references,
+public related writings, and tags. The title is the single page `h1`; Markdown
+begins below it and must maintain a coherent outline.
 
-### Borders, radii, and shadows
+The home route is a concise premise plus discoverable fixture writings. It is
+not the full archive or a discovery system.
 
-Use fine rules for separation. Small radii are acceptable on controls and status
-labels. Shadows are rare and must communicate elevation, not decoration.
+## Component responsibilities
 
-## Core components
+- `SiteHeader` and `SiteFooter`: quiet publication identity and global shell.
+- `WritingHeader`: title, description, type, both status dimensions, dates,
+  version, and language.
+- `WritingCard`: compact home-page entry point to a discoverable writing.
+- `StatusLabel`: textual publication or epistemic status with a restrained
+  semantic accent.
+- `LanguageIndicator`: localized language name and compact code.
+- `ReferenceList`: ordered structured bibliography with stable anchors and
+  accessible DOI/URL links.
+- `RevisionHistory`: validated version, localized date, and summary history.
+- `RelatedWritings`: validated public relations using canonical `entry.id`,
+  including an explicit archived marker.
+- `TagList`: semantic tag output without introducing archive navigation.
+- `ArchiveNotice`: explains that archived work remains available and readable.
 
-- `SiteHeader` and `SiteFooter`
-- `WritingHeader` for title, description, type, statuses, version, and dates
-- `WritingCard` with compact and featured variants
-- `StatusLabel` for publication and epistemic status
-- `Prose` styles for Markdown output
-- `TableOfContents` for sufficiently long, structured writings
-- `ReferenceList` and citation anchors
-- `RevisionHistory`
-- `RelatedWritings`
-- `TagList`
-- `ArchiveNotice`
-- `LanguageIndicator`
+A table of contents was not added: it is not required for the representative
+Phase 2 writings and remains a Phase 3, content-length-led decision.
 
-Components represent reusable semantics, not merely repeated CSS. Avoid a
-component for a wrapper used only once.
+## Centralized labels
 
-## Content-type treatment
+`src/lib/labels.ts` is the single presentation vocabulary for Turkish and
+English content types, publication statuses, epistemic statuses, language names,
+interface labels, and localized date formatting. Components do not repeat
+translation maps. Publication and epistemic status remain independent dimensions
+and receive equal visual weight.
 
-All types share the same layout family so the site remains one body of thought.
-Small typographic or iconographic distinctions may identify type, but each must
-remain understandable as text. Thought experiments and theories must not gain a
-more authoritative visual treatment than notes or questions.
+## Prose behavior
 
-## Writing page anatomy
+`src/styles/prose.css` covers headings, paragraphs, ordered and unordered lists,
+nested lists, blockquotes, inline and fenced code, tables, links, rules,
+figures, captions, footnotes, abbreviations, definition lists, superscript,
+subscript, strong text, and emphasis.
 
-1. Breadcrumb or compact route context.
-2. Title and standalone description.
-3. Type, publication status, epistemic status, dates, version, and language.
-4. Optional contents navigation for long documents.
-5. Main prose with figures, tables, notes, and citations.
-6. Revision history and archive notice where applicable.
-7. References.
-8. Related writings and tags.
-
-Metadata should be available near the start without becoming a wall that delays
-the first paragraph.
+Links use underlines as well as color. Images are responsive. Wide tables and
+code blocks scroll only inside bounded local regions; URLs and reference text
+wrap. Heading scroll offsets keep anchored headings clear. The built-in Astro
+Shiki renderer uses a light theme with no client-side JavaScript.
 
 ## Responsive behavior
 
-The narrow layout is the baseline. On wider screens, supplemental navigation or
-a table of contents may occupy a side column while prose retains its readable
-measure. Horizontal overflow is permitted only inside an explicitly scrollable
-table or code region with an accessible label.
+The narrow layout is the baseline. Shell gutters reduce naturally, metadata
+changes from one to multiple columns at `44rem`, and all touchable primary links
+have practical target space. At 320 CSS pixels there is no page-level horizontal
+overflow. At 1440 CSS pixels, prose remains 70ch rather than expanding to the
+full shell. There is no fixed essential interface, hover-only content,
+enhancement-script layout shift, or complex desktop sidebar.
 
-## Accessibility requirements
+## Accessibility behavior
 
-- Semantic headings in a single coherent outline.
-- A skip link and named landmarks.
-- Visible keyboard focus using the focus token.
-- Minimum practical target size of 44 by 44 CSS pixels for primary controls.
-- No essential hover-only content.
-- Meaningful alt text or explicitly empty alt text for decorative images.
-- Captions and source context for substantive figures.
-- Tables with correct headers and captions.
-- Language declared at page level and for passages that switch language.
-- Code blocks, footnotes, and citations operable with keyboard and screen
-  reader.
-- Print styles that retain URLs, citations, hierarchy, and revision metadata.
+- Dynamic page language, a visible-on-focus skip link, and matching
+  `#main-content` target.
+- Semantic site `header`, `main`, writing `article`, section headings, and
+  `footer`.
+- One primary `h1` and a tested representative heading outline.
+- Three-pixel `:focus-visible` outline using the focus token.
+- Underlined links, meaningful labels, and status meaning independent of color.
+- Reduced-motion handling and no essential animated interaction.
+- Captioned representative tables with scoped headers, locally scrollable
+  keyboard-focusable table regions, and figure captions/source context.
+- Semantic reference and revision sections; stable reference anchors.
+- Reading and navigation work without client-side JavaScript.
 
-## Interaction policy
+WCAG 2.2 AA is the baseline.
 
-Links and native disclosure elements cover most behavior. Client-side filtering,
-theme switching, or copy actions may be progressively enhanced later. Every
-enhancement needs a no-JavaScript path and must avoid shifting the reading
-layout after load.
+## Print behavior
+
+`src/styles/print.css` switches to white paper and black text, hides ordinary
+navigation and interactive decoration, and retains publication identity, title,
+description, type, both statuses, dates, version, language, archive notice,
+prose, revisions, references, tags, and useful external URLs. Headings avoid
+orphaning where practical; code wraps and tables remain unclipped. Browser
+print-to-PDF is supported, but automated PDF generation is not.
+
+## Verification
+
+Unit tests cover every Turkish/English status and content-type label. Production
+artifact tests cover language, skip navigation, landmarks, heading hierarchy,
+archive behavior, relations, references, revisions, draft exclusion, print
+inclusion, focus styles, responsive rules, prose measure, and local overflow.
+Manual browser checks at 320px and 1440px confirm no page overflow and the
+implemented 18px/70ch reading measure.
+
+No Phase 2 design requirement was intentionally deviated from. The
+table-of-contents option was deliberately left unimplemented because the phase
+boundary defers it unless an existing requirement strictly needs it.

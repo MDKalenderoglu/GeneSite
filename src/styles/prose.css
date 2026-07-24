@@ -1,0 +1,238 @@
+.prose {
+  width: min(100%, var(--width-prose));
+  margin-inline: auto;
+  padding-block-start: var(--space-10);
+  color: var(--color-text);
+  font-size: var(--text-body);
+  line-height: var(--line-body);
+  overflow-wrap: break-word;
+}
+
+.prose > :first-child {
+  margin-block-start: 0;
+}
+
+.prose > :last-child {
+  margin-block-end: 0;
+}
+
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  scroll-margin-block-start: var(--space-6);
+  margin-block: 2.4em 0.7em;
+  font-family: var(--font-text);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: var(--line-heading);
+}
+
+.prose h2 {
+  padding-block-end: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 1.65rem;
+}
+
+.prose h3 {
+  font-size: 1.35rem;
+}
+
+.prose h4 {
+  font-size: 1.14rem;
+}
+
+.prose h5,
+.prose h6 {
+  font-family: var(--font-interface);
+  font-size: 1rem;
+}
+
+.prose p {
+  margin-block: 0 1.35em;
+}
+
+.prose ul,
+.prose ol {
+  margin-block: 0 1.4em;
+  padding-inline-start: 1.45em;
+}
+
+.prose li {
+  margin-block: 0.35em;
+  padding-inline-start: 0.2em;
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-block: 0.35em;
+}
+
+.prose blockquote {
+  margin: var(--space-8) 0;
+  padding: var(--space-3) 0 var(--space-3) var(--space-5);
+  color: var(--color-text-muted);
+  border-inline-start: 3px solid var(--color-border-strong);
+  font-size: 1.04em;
+}
+
+.prose blockquote > :last-child {
+  margin-block-end: 0;
+}
+
+.prose code,
+.prose kbd,
+.prose samp {
+  font-family: var(--font-monospace);
+  font-size: 0.86em;
+}
+
+.prose :not(pre) > code {
+  padding: 0.12em 0.32em;
+  background: var(--color-code-background);
+  border-radius: var(--radius-small);
+  overflow-wrap: anywhere;
+}
+
+.prose pre {
+  max-width: 100%;
+  margin-block: var(--space-8);
+  padding: var(--space-5);
+  overflow-x: auto;
+  color: var(--color-text);
+  background: var(--color-code-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  line-height: 1.55;
+  tab-size: 2;
+}
+
+.prose pre.astro-code {
+  background: var(--color-code-background) !important;
+}
+
+.prose pre code {
+  padding: 0;
+  background: transparent;
+  overflow-wrap: normal;
+}
+
+.prose table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin-block: var(--space-8);
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-family: var(--font-interface);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.prose caption {
+  margin-block-end: var(--space-3);
+  color: var(--color-text-muted);
+  font-family: var(--font-text);
+  font-size: 0.95rem;
+  text-align: start;
+}
+
+.prose th,
+.prose td {
+  min-width: 9rem;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--color-surface-subtle);
+  font-weight: 700;
+}
+
+.prose .table-region {
+  max-width: 100%;
+  margin-block: var(--space-8);
+  overflow-x: auto;
+  border-radius: var(--radius-small);
+}
+
+.prose .table-region table {
+  margin-block: 0;
+}
+
+.prose a {
+  overflow-wrap: anywhere;
+}
+
+.prose hr {
+  width: 35%;
+  margin-block: var(--space-12);
+  margin-inline: 0;
+  border: 0;
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.prose figure {
+  margin: var(--space-10) 0;
+}
+
+.prose figure > img {
+  margin-inline: auto;
+}
+
+.prose figcaption {
+  margin-block-start: var(--space-3);
+  color: var(--color-text-muted);
+  font-family: var(--font-interface);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.prose dl {
+  margin-block: 0 1.5em;
+}
+
+.prose dt {
+  margin-block-start: 0.9em;
+  font-weight: 700;
+}
+
+.prose dd {
+  margin-inline-start: var(--space-6);
+}
+
+.prose abbr[title] {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 0.18em;
+  cursor: help;
+}
+
+.prose sup,
+.prose sub {
+  font-size: 0.72em;
+  line-height: 0;
+}
+
+.prose strong {
+  font-weight: 700;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose section[data-footnotes] {
+  margin-block-start: var(--space-12);
+  padding-block-start: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.88em;
+}
+
+.prose [data-footnote-ref],
+.prose [data-footnote-backref] {
+  font-family: var(--font-interface);
+}

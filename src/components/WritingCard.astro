@@ -1,0 +1,46 @@
+---
+import type { WritingEntry } from '../lib/content';
+import {
+  getContentTypeLabel,
+  getUiLabels,
+  type WritingLanguage,
+} from '../lib/labels';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  entry: WritingEntry;
+  interfaceLanguage: WritingLanguage;
+}
+
+const { entry, interfaceLanguage } = Astro.props;
+const labels = getUiLabels(interfaceLanguage);
+---
+
+<article class="writing-card" data-writing-id={entry.id}>
+  <div class="writing-card__main">
+    <p class="writing-card__type">
+      {getContentTypeLabel(entry.data.type, interfaceLanguage)}
+    </p>
+    <h3 lang={entry.data.language}>
+      <a href={`/writings/${entry.id}/`}>{entry.data.title}</a>
+    </h3>
+    <p class="writing-card__description" lang={entry.data.language}>
+      {entry.data.description}
+    </p>
+  </div>
+  <div class="writing-card__meta">
+    <StatusLabel
+      kind="publication"
+      value={entry.data.status}
+      language={interfaceLanguage}
+    />
+    <StatusLabel
+      kind="epistemic"
+      value={entry.data.epistemicStatus}
+      language={interfaceLanguage}
+    />
+    <a class="writing-card__link" href={`/writings/${entry.id}/`}>
+      {labels.readWriting}
+    </a>
+  </div>
+</article>

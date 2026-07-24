@@ -1,0 +1,44 @@
+---
+import {
+  formatWritingDate,
+  getUiLabels,
+  type WritingLanguage,
+} from '../lib/labels';
+import type { RevisionNote } from '../lib/writing-schema';
+
+interface Props {
+  revisions: RevisionNote[];
+  currentVersion: string;
+  language: WritingLanguage;
+}
+
+const { revisions, currentVersion, language } = Astro.props;
+const labels = getUiLabels(language);
+---
+
+{
+  revisions.length > 0 && (
+    <section aria-labelledby="revision-history-heading" data-revision-history>
+      <h2 id="revision-history-heading">{labels.revisionHistory}</h2>
+      <p>
+        {labels.currentVersion}:{' '}
+        <span class="technical-value">{currentVersion}</span>
+      </p>
+      <ol class="revision-list">
+        {revisions.map((revision) => (
+          <li class="revision-item">
+            <p class="revision-item__version">v{revision.version}</p>
+            <div class="revision-item__content">
+              <p>{revision.summary}</p>
+              <p class="revision-item__date">
+                <time datetime={revision.date.toISOString()}>
+                  {formatWritingDate(revision.date, language)}
+                </time>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}

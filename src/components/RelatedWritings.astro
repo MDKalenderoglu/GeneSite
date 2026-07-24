@@ -1,0 +1,40 @@
+---
+import type { WritingEntry } from '../lib/content';
+import {
+  getContentTypeLabel,
+  getUiLabels,
+  type WritingLanguage,
+} from '../lib/labels';
+
+interface Props {
+  writings: WritingEntry[];
+  language: WritingLanguage;
+}
+
+const { writings, language } = Astro.props;
+const labels = getUiLabels(language);
+---
+
+{
+  writings.length > 0 && (
+    <section aria-labelledby="related-writings-heading">
+      <h2 id="related-writings-heading">{labels.relatedWritings}</h2>
+      <ul class="related-list">
+        {writings.map((writing) => (
+          <li
+            data-related-writing-id={writing.id}
+            data-archived={writing.data.status === 'archived' || undefined}
+          >
+            <a href={`/writings/${writing.id}/`}>{writing.data.title}</a>
+            <span class="related-list__meta">
+              <span>{getContentTypeLabel(writing.data.type, language)}</span>
+              {writing.data.status === 'archived' && (
+                <span class="archived-marker">{labels.archivedShort}</span>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

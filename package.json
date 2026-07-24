@@ -13,9 +13,9 @@
     "check": "astro check",
     "validate": "vitest run tests/content-schema.test.ts tests/content-validation.test.ts",
     "test": "npm run validate && npm run test:unit && npm run test:integration",
-    "test:unit": "vitest run tests/content-identity.test.ts tests/content-selectors.test.ts",
+    "test:unit": "vitest run tests/content-identity.test.ts tests/content-selectors.test.ts tests/labels.test.ts",
     "test:integration": "vitest run tests/content-identity.integration.test.ts",
-    "test:artifact": "vitest run tests/production-artifact.test.ts",
+    "test:artifact": "vitest run tests/production-artifact.test.ts tests/phase-2-artifact.test.ts",
     "build": "astro build",
     "verify": "npm run format:check && npm run check && npm run validate && npm run test:unit && npm run test:integration && npm run build && npm run test:artifact"
   },

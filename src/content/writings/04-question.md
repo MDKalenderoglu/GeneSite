@@ -16,6 +16,7 @@ tags:
   - olcum
 relatedWritings:
   - evidence-map
+  - archived-observation
 references: []
 featured: false
 draft: false

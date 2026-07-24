@@ -1,0 +1,35 @@
+---
+import {
+  getEpistemicStatusLabel,
+  getPublicationStatusLabel,
+  type EpistemicStatus,
+  type PublicationStatus,
+  type WritingLanguage,
+} from '../lib/labels';
+
+type Props =
+  | {
+      kind: 'publication';
+      value: PublicationStatus;
+      language: WritingLanguage;
+    }
+  | {
+      kind: 'epistemic';
+      value: EpistemicStatus;
+      language: WritingLanguage;
+    };
+
+const props = Astro.props;
+const label =
+  props.kind === 'publication'
+    ? getPublicationStatusLabel(props.value, props.language)
+    : getEpistemicStatusLabel(props.value, props.language);
+---
+
+<span
+  class="status-label"
+  data-status-kind={props.kind}
+  data-status-value={props.value}
+>
+  {label}
+</span>

@@ -1,37 +1,39 @@
 ---
-import { getDiscoverableWritings } from '../lib/content';
+import WritingCard from '../components/WritingCard.astro';
 import { PRIMARY_LANGUAGE, SITE_NAME } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getDiscoverableWritings } from '../lib/content';
+import { getUiLabels } from '../lib/labels';
 
 const writings = await getDiscoverableWritings();
+const labels = getUiLabels(PRIMARY_LANGUAGE);
 ---
 
-<!doctype html>
-<html lang={PRIMARY_LANGUAGE}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{SITE_NAME} — Phase 1</title>
-  </head>
-  <body>
-    <header>
-      <h1>{SITE_NAME}</h1>
-      <p>Phase 1 içerik sözleşmesi için minimal inceleme sayfası.</p>
+<BaseLayout
+  title={`${SITE_NAME} — ${labels.siteDescription}`}
+  description={labels.homeDescription}
+  language={PRIMARY_LANGUAGE}
+>
+  <div class="wide-shell">
+    <header class="home-intro">
+      <p class="home-intro__kicker">{labels.homeKicker}</p>
+      <h1>{labels.homeTitle}</h1>
+      <p class="home-intro__description">{labels.homeDescription}</p>
     </header>
-    <main>
-      <h2>Keşfedilebilir geliştirme fixture'ları</h2>
-      <ul data-public-writing-index>
+
+    <section class="writing-selection" aria-labelledby="selected-writings">
+      <header class="writing-selection__header">
+        <p class="section-kicker">GeneSite</p>
+        <h2 id="selected-writings">{labels.selectedWritings}</h2>
+        <p>{labels.selectedWritingsDescription}</p>
+      </header>
+      <div class="writing-list" data-public-writing-index>
         {
           writings.map((writing) => (
-            <li data-writing-id={writing.id}>
-              <a href={`/writings/${writing.id}/`}>{writing.data.title}</a>
-              <span>
-                {' '}
-                — {writing.data.type}, {writing.data.status}
-              </span>
-            </li>
+            <WritingCard entry={writing} interfaceLanguage={PRIMARY_LANGUAGE} />
           ))
         }
-      </ul>
-    </main>
-  </body>
-</html>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
