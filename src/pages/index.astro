@@ -1,0 +1,37 @@
+---
+import { getDiscoverableWritings } from '../lib/content';
+import { PRIMARY_LANGUAGE, SITE_NAME } from '../data/site';
+
+const writings = await getDiscoverableWritings();
+---
+
+<!doctype html>
+<html lang={PRIMARY_LANGUAGE}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{SITE_NAME} — Phase 1</title>
+  </head>
+  <body>
+    <header>
+      <h1>{SITE_NAME}</h1>
+      <p>Phase 1 içerik sözleşmesi için minimal inceleme sayfası.</p>
+    </header>
+    <main>
+      <h2>Keşfedilebilir geliştirme fixture'ları</h2>
+      <ul data-public-writing-index>
+        {
+          writings.map((writing) => (
+            <li data-writing-id={writing.id}>
+              <a href={`/writings/${writing.id}/`}>{writing.data.title}</a>
+              <span>
+                {' '}
+                — {writing.data.type}, {writing.data.status}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </body>
+</html>
