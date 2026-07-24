@@ -130,6 +130,7 @@ export const writingSchema = z
     references: z.array(writingReferenceSchema).max(100),
     featured: z.boolean(),
     draft: z.boolean(),
+    fixture: z.boolean().default(false),
     revisionNotes: z.array(revisionNoteSchema).max(100),
   })
   .superRefine((writing, context) => {
