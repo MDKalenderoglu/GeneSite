@@ -1,6 +1,7 @@
 ---
 import { SITE_NAME } from '../data/site';
 import { getUiLabels, type WritingLanguage } from '../lib/labels';
+import { sitePath } from '../lib/site-path';
 
 interface Props {
   language: WritingLanguage;
@@ -13,7 +14,7 @@ const labels = getUiLabels(language);
 <header class="site-header">
   <div class="site-header__inner wide-shell">
     <nav aria-label={labels.primaryNavigation}>
-      <a class="site-header__brand" href="/">{SITE_NAME}</a>
+      <a class="site-header__brand" href={sitePath('/')}>{SITE_NAME}</a>
     </nav>
     <p class="site-header__tagline">{labels.siteDescription}</p>
   </div>
