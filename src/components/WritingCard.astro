@@ -5,6 +5,7 @@ import {
   getUiLabels,
   type WritingLanguage,
 } from '../lib/labels';
+import { sitePath } from '../lib/site-path';
 import StatusLabel from './StatusLabel.astro';
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 
 const { entry, interfaceLanguage } = Astro.props;
 const labels = getUiLabels(interfaceLanguage);
+const writingHref = sitePath(`/writings/${entry.id}/`);
 ---
 
 <article class="writing-card" data-writing-id={entry.id}>
@@ -22,7 +24,7 @@ const labels = getUiLabels(interfaceLanguage);
       {getContentTypeLabel(entry.data.type, interfaceLanguage)}
     </p>
     <h3 lang={entry.data.language}>
-      <a href={`/writings/${entry.id}/`}>{entry.data.title}</a>
+      <a href={writingHref}>{entry.data.title}</a>
     </h3>
     <p class="writing-card__description" lang={entry.data.language}>
       {entry.data.description}
@@ -39,7 +41,7 @@ const labels = getUiLabels(interfaceLanguage);
       value={entry.data.epistemicStatus}
       language={interfaceLanguage}
     />
-    <a class="writing-card__link" href={`/writings/${entry.id}/`}>
+    <a class="writing-card__link" href={writingHref}>
       {labels.readWriting}
     </a>
   </div>
