@@ -5,6 +5,7 @@ import {
   getUiLabels,
   type WritingLanguage,
 } from '../lib/labels';
+import { sitePath } from '../lib/site-path';
 
 interface Props {
   writings: WritingEntry[];
@@ -25,7 +26,9 @@ const labels = getUiLabels(language);
             data-related-writing-id={writing.id}
             data-archived={writing.data.status === 'archived' || undefined}
           >
-            <a href={`/writings/${writing.id}/`}>{writing.data.title}</a>
+            <a href={sitePath(`/writings/${writing.id}/`)}>
+              {writing.data.title}
+            </a>
             <span class="related-list__meta">
               <span>{getContentTypeLabel(writing.data.type, language)}</span>
               {writing.data.status === 'archived' && (
